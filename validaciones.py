@@ -29,5 +29,4 @@ def validacion_precio_validacion_fecha(fecha_evento,precio,tipo_evento):
     cursor.execute(querySort, (fecha_evento, precio, tipo_evento))
     eventos=cursor.fetchall()
     conn.close()
-    print(f"Fecha Evento: {fecha_evento}, Precio: {precio}, Tipo Evento: {tipo_evento}")
     return None,eventos

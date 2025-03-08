@@ -6,9 +6,10 @@ def get_db_connection():
             user="root",
             password="",
             database="eventos",
-            cursorclass=pymysql.cursors.DictCursor  # Devuelve resultados en formato diccionario
+            cursorclass=pymysql.cursors.DictCursor
         )
         return conn
     except Exception as e:
         print(f"Error de conexión: {e}")
         return None
+    
