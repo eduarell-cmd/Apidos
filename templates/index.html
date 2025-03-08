@@ -21,12 +21,10 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <!-- Main CSS File -->
   <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
-
 </head>
 <body>
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
-    
             <h1 class="sitename">EVECUU</h1>
 
           <nav id="navmenu" class="navmenu">
@@ -42,13 +40,24 @@
         </div>
       </header>
       <p class="h5" style="text-align: center;">Encuentra los mejores eventos culturales en el estado de Chihuahua</p>
+      {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+          {% for category, message in messages %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          {% endfor %}
+      {% endif %}
+  {% endwith %}
       <br>
-      {% for evento in eventos %}
+      
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active">
+          {% for evento in eventos %}
+          <div class="carousel-item {% if loop.first %}active{% endif %}">
             <div class="container-fluid gallery" data-aos="fade-up" data-aos-delay="100">
-                <div class="row gy-4 justify-content-center">
+                <div class="row gy-4 justify-content-center">                  
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="gallery-item h-100">
                         <img src="{{ evento["imagen"] }}" class="img-fluid" alt="">
@@ -56,15 +65,16 @@
                                 <h1>{{ evento["nombre_evento"] }}</h1>
                                 <p>{{ evento["descripcion_evento"] }}</p>
                                 <a href="#" class="details-link" data-bs-toggle="modal" 
-                                data-bs-target="#miModal{{ evento[0] }}">
+                                data-bs-target="#miModal{{ evento["Id_evento"] }}">
                                     <i class="bi bi-geo-alt flex-shrink-0"></i>
                                 </a>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div>                    
+                </div>  
             </div>
           </div>
+          {%endfor%}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -75,7 +85,7 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
-      {%endfor%}
+      
       <br><br>
       <style>
         .dropdown-container {
@@ -109,40 +119,37 @@
         }
       </style>
       <section id="contact" class="contact section">
-        <form action="" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="300">
+        <form action="/sorted" method="post" data-aos="fade-up" data-aos-delay="300">
             <div class="row gy-4">
-                <h4 class="h4">Busca los eventos de tu preferencia</h4>
+                <h4 class="h4" style="text-align: center;">Busca los eventos de tu preferencia</h4>
               <div class="col-md-3">
-                <input type="date" name="date" class="form-control" required>
+                <p>Introduce la fecha del evento</p>
+                <input type="text" name="fecha_evento" class="form-control" required placeholder="aaaa-mm-dd">
               </div>
 
               <div class="col-md-6">
+                <p>Introduce 0 si buscas entrada gratuita</p>
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Precio">
-                    <span class="input-group-text">.00</span>
+                    <input type="number" name="precio" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Precio">
                 </div>
               </div>
 
               <div class="col-md-3">
-                <select name="" id="" placeholder="Selecciona un tipo de evento">
-                    <option value="" disabled selected>Selecciona un tipo de evento</option>
-                    <option value="">Musica</option>
-                    <option value="">Cultural</option>
-                    <option value="">Danza</option>
-                    <option value="">Teatro</option>
-                    <option value="">Arte</option>
+                <p>Selecciona un tipo de evento</p>
+                <select name="tipo_evento" class="form-control" required>
+                    <option value="Musica">Musica</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Danza">Danza</option>
+                    <option value="Teatro">Teatro</option>
+                    <option value="Arte">Arte</option>
                 </select>
               </div>
     
 
     
               <div class="col-md-12 text-center">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-    
-                <button type="submit">Search</button>
+                <button type="submit" class="btn btn-primary">Buscar eventos</button>
               </div>
     
             </div>
@@ -153,39 +160,39 @@
  
 <style>
     /* Cambiar el color de fondo del modal */
-    #miModal .modal-content {
+    .myModalClass .modal-content {
       background-color: #585858; /* Gris claro */
     }
   
     /* Cambiar el color de fondo del encabezado del modal */
-    #miModal .modal-header {
+    .myModalClass .modal-header {
       background-color: #585858; /* Gris claro */
       color: #333; /* Color del texto (puedes ajustarlo si lo prefieres más oscuro) */
     }
   
     /* Cambiar el color de fondo del pie de página del modal */
-    #miModal .modal-footer {
+    .myModalClass .modal-footer {
       background-color: #585858; /* Gris claro */
     }
   
     /* Cambiar el color de los botones */
-    #miModal .btn-secondary {
+    .myModalClass .btn-secondary {
       background-color: #0d0d0d; /* Gris más oscuro para el botón */
       border-color: #0d0d0d; /* Gris oscuro para el borde del botón */
     }
   
     /* Cambiar el color del botón de cerrar */
-    #miModal .btn-close {
+    .myModalClass .btn-close {
       color: #0d0d0d; /* Color oscuro para el botón de cerrar */
     }
   </style>
   {% for evento in eventos %}
   <!-- Modal -->
-  <div class="modal" id="miModal{{ evento[0] }}" tabindex="-1">
+  <div class="modal myModalClass" id="miModal{{ evento["Id_evento"] }}" tabindex="-1">
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title">Location</h5>
+                  <h5 class="modal-title">Ubicacion del evento: {{ evento["nombre_evento"] }}</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
