@@ -22,7 +22,7 @@
   <!-- Main CSS File -->
   <link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #292929;">
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
             <h1 class="sitename">EVECUU</h1>
@@ -51,7 +51,8 @@
       {% endif %}
   {% endwith %}
       <br>
-      
+      <br>
+      <br>
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           {% for evento in eventos %}
@@ -72,6 +73,8 @@
                         </div>
                     </div>                    
                 </div>  
+                <br>
+                <p class="h5" style="text-align: center;">{{ evento["nombre_evento"] }}</p>
             </div>
           </div>
           {%endfor%}
@@ -88,6 +91,64 @@
       
       <br><br>
       <style>
+        /* Fondo general de la página */
+body {
+    background-color: #292929 !important;
+    color: #DADADA !important;
+}
+
+/* Aplicar el fondo a toda la estructura */
+.container-fluid, .header, section, .modal-content {
+    background-color: #292929 !important;
+}
+
+/* Ajustar el color del texto */
+h1, h2, h3, h4, h5, h6, p, a, span, label {
+    color: #DADADA !important;
+}
+
+/* Ajustar elementos con fondo blanco para que sean oscuros */
+.gallery-item, .dropdown-container {
+    background-color: #333333 !important;
+    color: #DADADA !important;
+    border-color: #444444 !important;
+}
+
+/* Inputs en blanco */
+.form-control, select {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #444444 !important;
+}
+
+/* Ajustar los botones */
+.btn-primary {
+    background-color: #444444 !important;
+    border-color: #444444 !important;
+    color: #DADADA !important;
+}
+
+.btn-primary:hover {
+    background-color: #555555 !important;
+    border-color: #555555 !important;
+}
+
+/* Modales */
+.modal-header, .modal-footer {
+    background-color: #292929 !important;
+    color: #DADADA !important;
+}
+
+/* Botón de cerrar */
+.btn-close {
+    filter: invert(1); /* Hace que el botón de cerrar sea visible en fondos oscuros */
+}
+
+/* Dropdown */
+.dropdown-container::after {
+    color: #DADADA !important;
+}
+
         .dropdown-container {
           position: relative;
         }
